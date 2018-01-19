@@ -25,7 +25,7 @@ trait RouteHandlers {
       case MalformedRequestContentRejection(msg, _) => complete(StatusCodes.BadRequest, msg)
       case UnsupportedRequestContentTypeRejection(_) => complete(StatusCodes.BadRequest, "UnsupportedRequestContentTypeRejection Occurred")
     }.handleNotFound {
-      complete(StatusCodes.NotFound, "Not Here")
+      complete(StatusCodes.NotFound, "Requested Url Not Found")
     }.result()
 
   implicit def exceptionHandler = ExceptionHandler {
@@ -59,7 +59,7 @@ trait Routes extends RouteHandlers {
               } ~ path(Segment) { tx_id => {
                 put {
                   entity(as[Transaction]) { tx =>
-                    val new_tx: Transaction = tx.copy(transaction_id = tx_id.toLong)
+                    val new_tx: Transaction = tx.copy(transaction_id = tx_id.toLong)  //We create a copy of the transaction with the correct transaction_id after unmarshalling
                     val perReqActor = actorSystem.actorOf(Props[PerRequestActor], s"per-req-actor-${Random.nextInt}")
                     logger.info("Created actor........" + perReqActor.path.name)
                     completeWith[HttpResponse](implicitly[ToResponseMarshaller[HttpResponse]]) {

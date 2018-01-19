@@ -8,7 +8,7 @@ import com.transaction.api.actors.GetTypesByTypeActor.TypesByTypeFetched
 import com.transaction.api.actors.dataactors.GetTypesByTypeDAActor.FetchTypesByType
 import com.transaction.api.common.utils.DataStore.tx_list
 import com.transaction.api.models.Transaction
-import com.transaction.api.models.TransactionJsonProtocol._
+import com.transaction.api.models.TransactionByTypesJsonProtocol._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
