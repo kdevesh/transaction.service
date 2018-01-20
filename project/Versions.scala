@@ -11,6 +11,7 @@ object Versions {
   val akkaHttpCorsV = "0.1.11"
   val akkaStreamContribV = "0.8"
   val akkaHttpTestKitV = "10.0.7"
+
   //logging
   val akkaSlf4jV = "2.4.17"
   val logbackV = "1.2.2"
@@ -20,9 +21,15 @@ object Versions {
   val cassandraDriverV = "3.1.4"
   val alpakkaCassandraConnectorV = "0.11"
 
-  //redis
-  val redisV = "1.8.0"
-
   //snappyJava
   val snappyJavaV = "1.1.4-M3"
+
+  //Test
+  val mockitoV = "1.8.4"
+  val scalatestV = "3.0.1"
+  val mockitocoreV = "2.7.22"
+
+  //Utils
+  val commanLangV = "3.3.2"
+  val commoncodecV = "1.9"
 }
