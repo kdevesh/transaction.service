@@ -21,6 +21,7 @@ object GetTransactionByIdActor {
 
 class GetTransactionByIdActor(completerFunction: HttpResponse => Unit, origin: ActorRef) extends Actor with ActorLogging {
   private val logger = LoggerFactory.getLogger(this.getClass)
+  logger.info("Inside GetTransactionByIdActor")
 
   override def supervisorStrategy: OneForOneStrategy = OneForOneStrategy() {
     case _: Exception => Escalate
@@ -34,6 +35,7 @@ class GetTransactionByIdActor(completerFunction: HttpResponse => Unit, origin: A
   }
 
   def getTransactionByIdDAActor = {
+    logger.info("Created GetTransactionByIdDAActor")
     context.actorOf(Props(new GetTransactionByIdDAActor(completerFunction)), s"getTransactionByIdDAActor-${Random.nextInt}")
   }
 

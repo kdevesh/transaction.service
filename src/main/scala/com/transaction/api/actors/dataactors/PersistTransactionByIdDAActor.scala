@@ -6,6 +6,7 @@ import com.transaction.api.actors.PutTransactionByIdActor.TransactionByIdSaved
 import com.transaction.api.actors.dataactors.PersistTransactionByIdDAActor.SaveTransactionById
 import com.transaction.api.common.utils.DataStore._
 import com.transaction.api.models.Transaction
+import org.slf4j.LoggerFactory
 
 import scala.util.{Failure, Success, Try}
 
@@ -16,6 +17,9 @@ object PersistTransactionByIdDAActor {
 }
 
 class PersistTransactionByIdDAActor(completerFunction: HttpResponse => Unit) extends Actor with ActorLogging {
+  private val logger = LoggerFactory.getLogger(this.getClass)
+  logger.info("Inside PersistTransactionByIdDAActor")
+
   override def receive = {
     case SaveTransactionById(tx) =>
       Try {

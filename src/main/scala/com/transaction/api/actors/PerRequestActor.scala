@@ -1,6 +1,8 @@
 package com.transaction.api.actors
 
-import akka.actor.{Actor, ActorLogging, ActorRef, Props}
+import akka.actor.SupervisorStrategy.Stop
+import akka.actor.{Actor, ActorLogging, ActorRef, AllForOneStrategy, Props, SupervisorStrategy}
+import akka.event.LoggingAdapter
 import akka.http.scaladsl.model.HttpResponse
 import com.transaction.api.actors.GetSumByTransactionIdActor.GetSumInfoByTransactionId
 import com.transaction.api.actors.GetTransactionByIdActor.GetTransactionInfoById
@@ -28,6 +30,11 @@ object PerRequestActor {
 
 class PerRequestActor extends Actor with ActorLogging {
   private val logger: Logger = LoggerFactory.getLogger(this.getClass)
+
+  override def supervisorStrategy = AllForOneStrategy() {
+    case _: Exception => Stop
+    case _: Throwable => Stop
+  }
 
   override def receive = {
     case GetTransactionByTransactionId(completerFunction, tx_id) =>

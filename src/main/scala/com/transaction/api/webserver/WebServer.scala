@@ -8,8 +8,8 @@ object Webserver extends App with Routes {
   implicit val actorSystem = ActorEssentials.actorSystem
   implicit val materializer = ActorEssentials.materialzer
   implicit val executionContext = ActorEssentials.actorSystem.dispatcher
-  val host = "localhost"
-  val port = "8090"
+  val host = sys.env("HOST")
+  val port = sys.env("PORT")
   logger.info(s"Server Properties: Host - $host, Port - $port")
   val bindingFuture = Http().bindAndHandle(getRoutes, host, port.toInt)
   logger.info(s"Transaction Service online at http://$host:$port")

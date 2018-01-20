@@ -19,10 +19,10 @@ object TransactionJsonProtocol extends DefaultJsonProtocol {
     override def read(value: JsValue): Transaction = {
       value.asJsObject.getFields("amount", "type", "parent_id") match {
         case Seq(JsNumber(amount), JsString(tx_type), JsNumber(parent_id)) =>
-          Transaction(0L, amount.toDouble, tx_type.toString, Option(parent_id.toLong))  //By default the transaction_id is 0 because the transaction id comes from url after unmarshalling the transaction_id gets updated and then gets stored
+          Transaction(0L, amount.toDouble, tx_type.toString, Option(parent_id.toLong)) //By default the transaction_id is 0 because the transaction id comes from url after unmarshalling the transaction_id gets updated and then gets stored
         case Seq(JsNumber(amount), JsString(tx_type)) =>
           Transaction(0L, amount.toDouble, tx_type.toString, None)
-        case Seq(JsNumber(amount), JsString(tx_type),JsNull) =>   //This case is added so that test cases can run smoothly
+        case Seq(JsNumber(amount), JsString(tx_type), JsNull) => //This case is added so that test cases can run smoothly
           Transaction(0L, amount.toDouble, tx_type.toString, None)
         case _ => throw DeserializationException("Invalid Json Body")
       }

@@ -87,4 +87,64 @@ class TransactionServiceTest extends TransactionServiceTestSpec {
       }
     }
   }
+  "Get transactionservice/types/cars" should {
+    "get all the transactions of type cars" in {
+      val getRequest = HttpRequest(
+        HttpMethods.GET,
+        uri = "/transactionservice/types/cars",
+      )
+      getRequest ~> Route.seal(getRoutes) ~> check {
+        response.status shouldEqual StatusCodes.OK
+        responseAs[String] shouldEqual txByType1
+      }
+    }
+  }
+  "Get transactionservice/types/shopping" should {
+    "get all the transactions of type shopping" in {
+      val getRequest = HttpRequest(
+        HttpMethods.GET,
+        uri = "/transactionservice/types/shopping",
+      )
+      getRequest ~> Route.seal(getRoutes) ~> check {
+        response.status shouldEqual StatusCodes.OK
+        responseAs[String] shouldEqual txByType2
+      }
+    }
+  }
+  "Get transactionservice/types/bikes" should {
+    "get all the transactions of type bikes" in {
+      val getRequest = HttpRequest(
+        HttpMethods.GET,
+        uri = "/transactionservice/types/bikes",
+      )
+      getRequest ~> Route.seal(getRoutes) ~> check {
+        response.status shouldEqual StatusCodes.NotFound
+        responseAs[String] shouldEqual invalidTxByType
+      }
+    }
+  }
+  "Get transactionservice/transaction/12" should {
+    "get the transaction of id 12" in {
+      val getRequest = HttpRequest(
+        HttpMethods.GET,
+        uri = "/transactionservice/transaction/12",
+      )
+      getRequest ~> Route.seal(getRoutes) ~> check {
+        response.status shouldEqual StatusCodes.NotFound
+        responseAs[String] shouldEqual invalidTxById
+      }
+    }
+  }
+  "Get transactionservice/sum/12" should {
+    "get the sum of all the transactions with parent_id=12 && transaction_id = 12" in {
+      val getRequest = HttpRequest(
+        HttpMethods.GET,
+        uri = "/transactionservice/sum/12",
+      )
+      getRequest ~> Route.seal(getRoutes) ~> check {
+        response.status shouldEqual StatusCodes.NotFound
+        responseAs[String] shouldEqual invalidSumById
+      }
+    }
+  }
 }

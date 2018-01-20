@@ -59,8 +59,8 @@ trait Routes extends RouteHandlers {
               } ~ path(Segment) { tx_id => {
                 put {
                   entity(as[Transaction]) { tx =>
-                    val new_tx: Transaction = tx.copy(transaction_id = tx_id.toLong)  //We create a copy of the transaction with the correct transaction_id after unmarshalling
-                    val perReqActor = actorSystem.actorOf(Props[PerRequestActor], s"per-req-actor-${Random.nextInt}")
+                    val new_tx: Transaction = tx.copy(transaction_id = tx_id.toLong) //We create a copy of the transaction with the correct transaction_id after unmarshalling
+                  val perReqActor = actorSystem.actorOf(Props[PerRequestActor], s"per-req-actor-${Random.nextInt}")
                     logger.info("Created actor........" + perReqActor.path.name)
                     completeWith[HttpResponse](implicitly[ToResponseMarshaller[HttpResponse]]) {
                       completerFunction => {

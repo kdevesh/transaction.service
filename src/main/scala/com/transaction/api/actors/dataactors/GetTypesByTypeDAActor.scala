@@ -9,6 +9,7 @@ import com.transaction.api.actors.dataactors.GetTypesByTypeDAActor.FetchTypesByT
 import com.transaction.api.common.utils.DataStore.tx_list
 import com.transaction.api.models.Transaction
 import com.transaction.api.models.TransactionByTypesJsonProtocol._
+import org.slf4j.LoggerFactory
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -19,6 +20,9 @@ object GetTypesByTypeDAActor {
 }
 
 class GetTypesByTypeDAActor(completerFunction: HttpResponse => Unit) extends Actor with ActorLogging {
+  private val logger = LoggerFactory.getLogger(this.getClass)
+  logger.info("Inside GetTypesByTypeDAActor")
+
   override def receive = {
     case FetchTypesByType(tx_type) =>
       val result: Seq[Transaction] = tx_list.filter(tx => tx.tx_type == tx_type)
@@ -27,7 +31,7 @@ class GetTypesByTypeDAActor(completerFunction: HttpResponse => Unit) extends Act
           tx => completerFunction(HttpResponse(entity = tx, status = StatusCodes.OK))
         )
       else
-        completerFunction(HttpResponse(entity = s"No transaction found for type = $tx_type", status = StatusCodes.OK))
+        completerFunction(HttpResponse(entity = s"No transaction found for type = $tx_type", status = StatusCodes.NotFound))
       sender ! TypesByTypeFetched
   }
 }

@@ -21,6 +21,7 @@ object GetSumByTransactionIdActor {
 
 class GetSumByTransactionIdActor(completerFunction: HttpResponse => Unit, origin: ActorRef) extends Actor with ActorLogging {
   private val logger = LoggerFactory.getLogger(this.getClass)
+  logger.info("Inside GetSumByTransactionIdActor")
 
   override def supervisorStrategy: OneForOneStrategy = OneForOneStrategy() {
     case _: Exception => Escalate
@@ -31,10 +32,10 @@ class GetSumByTransactionIdActor(completerFunction: HttpResponse => Unit, origin
       getSumByTransactionIdDAActor ! FetchSumByTransactionId(tx_id)
     case SumByTransactionIdFetched =>
       origin ! Done
-
   }
 
   def getSumByTransactionIdDAActor = {
+    logger.info("Created GetSumByTransactionIdDAActor")
     context.actorOf(Props(new GetSumByTransactionIdDAActor(completerFunction)), s"getSumByTransactionIdDAActor${Random.nextInt}")
   }
 }

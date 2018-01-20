@@ -21,6 +21,7 @@ object GetTypesByTypeActor {
 
 class GetTypesByTypeActor(completerFunction: HttpResponse => Unit, origin: ActorRef) extends Actor with ActorLogging {
   private val logger = LoggerFactory.getLogger(this.getClass)
+  logger.info("Inside GetTypesByTypeActor")
 
   override def supervisorStrategy: OneForOneStrategy = OneForOneStrategy() {
     case _: Exception => Escalate
@@ -34,6 +35,7 @@ class GetTypesByTypeActor(completerFunction: HttpResponse => Unit, origin: Actor
   }
 
   def getTypesByTypeDAActor = {
+    logger.info("Created GetTypesByTypeDAActor")
     context.actorOf(Props(new GetTypesByTypeDAActor(completerFunction)), s"getTypesByTypeDAActor-${Random.nextInt}")
   }
 }

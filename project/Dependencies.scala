@@ -56,4 +56,5 @@ object Dependencies {
     val commanLang = "org.apache.commons" % "commons-lang3" % "3.3.2"
     val commoncodec = "commons-codec" % "commons-codec" % "1.9"
   }
+
 }

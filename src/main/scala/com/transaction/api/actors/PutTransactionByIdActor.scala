@@ -22,6 +22,7 @@ object PutTransactionByIdActor {
 
 class PutTransactionByIdActor(completerFunction: HttpResponse => Unit, origin: ActorRef) extends Actor with ActorLogging {
   private val logger = LoggerFactory.getLogger(this.getClass)
+  logger.info("Inside PutTransactionByIdActor")
 
   override def supervisorStrategy: OneForOneStrategy = OneForOneStrategy() {
     case _: Exception => Escalate
@@ -35,6 +36,7 @@ class PutTransactionByIdActor(completerFunction: HttpResponse => Unit, origin: A
   }
 
   def getPersistTransactionByIdDAActor = {
+    logger.info("Created PersistTransactionByIdDAActor")
     context.actorOf(Props(new PersistTransactionByIdDAActor(completerFunction)), s"persistTxByIdActor-${Random.nextInt}")
   }
 }
