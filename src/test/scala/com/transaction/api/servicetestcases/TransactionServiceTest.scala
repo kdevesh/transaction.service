@@ -147,4 +147,17 @@ class TransactionServiceTest extends TransactionServiceTestSpec {
       }
     }
   }
+  "POST transactionservice/transaction/10" should {
+    "add new transaction" in {
+      val postRequest = HttpRequest(
+        HttpMethods.POST,
+        uri = "/transactionservice/transaction/10",
+        entity = HttpEntity(MediaTypes.`application/json`, putTransactionRequest1))
+
+      postRequest ~> Route.seal(getRoutes) ~> check {
+        response.status shouldEqual StatusCodes.MethodNotAllowed
+        responseAs[String] shouldEqual "HTTP method not allowed, supported methods: GET, PUT"
+      }
+    }
+  }
 }
